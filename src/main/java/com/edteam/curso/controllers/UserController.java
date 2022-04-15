@@ -1,6 +1,8 @@
 package com.edteam.curso.controllers;
 
 import com.edteam.curso.models.User;
+import com.edteam.curso.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,18 +12,16 @@ import java.util.List;
 @RequestMapping("user")
 public class UserController {
 
+    @Autowired
+    UserService userService;
+
     /**
      *
      * @return todos los usuarios
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     List<User> getAll() {
-        List<User> list = new ArrayList<>();
-        User user = new User();
-        user.setNombre("Lucas");
-        user.setApellido("Moncada");
-        list.add(user);
-        return list;
+        return userService.getAll();
     }
 
     /**
@@ -31,12 +31,8 @@ public class UserController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     User get(@PathVariable long id) {
-        User user = new User();
-        user.setNombre("Miguel");
-        user.setApellido("Chavez");
-        return user;
+        return userService.get(id);
     }
-
 
     /**
      * Pasaremos un usuario como parametro y este
@@ -47,7 +43,7 @@ public class UserController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     User register(@RequestBody User user) {
         // TODO: Registrar en la base de datos al usuario
-        return user;
+        return userService.register(user);
     }
 
     /**
@@ -58,12 +54,12 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     User update(@RequestBody User user) {
         // TODO: Actualizar en la base de datos al usuario
-        return user;
+        return userService.update(user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     void delete(@PathVariable long id) {
         // TODO: eliminar en la base de datos al usuario
-
+        userService.delete(id);
     }
 }
